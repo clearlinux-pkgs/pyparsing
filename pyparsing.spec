@@ -4,7 +4,7 @@
 #
 Name     : pyparsing
 Version  : 2.0.6
-Release  : 15
+Release  : 16
 URL      : https://pypi.python.org/packages/source/p/pyparsing/pyparsing-2.0.6.tar.gz
 Source0  : https://pypi.python.org/packages/source/p/pyparsing/pyparsing-2.0.6.tar.gz
 Summary  : Python parsing module
