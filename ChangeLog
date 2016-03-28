@@ -2,6 +2,28 @@
 Change Log
 ==========
 
+Version 2.1.1 - 
+------------------------------
+- Added support for assigning to ParseResults using slices.
+
+- Fixed bug in ParseResults.toDict(), in which dict values were always
+  converted to dicts, even if they were just unkeyed lists of tokens.
+  Reported on SO by Gerald Thibault, thanks Gerald!
+
+- Fixed bug in SkipTo when using failOn, reported by robyschek, thanks!
+
+- Fixed bug in Each introduced in 2.1.0, reported by AND patch and
+  unit test submitted by robyschek, well done!
+
+- Removed use of functools.partial in replaceWith, as this creates
+  an ambiguous signature for the generated parse action, which fails in 
+  PyPy. Reported by Evan Hubinger, thanks Evan!
+
+- Added default behavior to QuotedString to convert embedded '\t', '\n',
+  etc. characters to their whitespace counterparts. Found during Q&A
+  exchange on SO with Maxim.
+
+
 Version 2.1.0 - February, 2016
 ------------------------------
 - Modified the internal _trim_arity method to distinguish between 
