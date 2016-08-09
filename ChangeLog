@@ -2,6 +2,68 @@
 Change Log
 ==========
 
+Version 2.1.6 - 
+------------------------------
+- *Major packrat upgrade*, inspired by patch provided by Tal Einat - 
+  many, many, thanks to Tal for working on this! Tal's tests show 
+  faster parsing performance (2X in some tests), *and* memory reduction 
+  from 3GB down to ~100MB! Requires no changes to existing code using 
+  packratting. (Uses OrderedDict, available in Python 2.7 and later.
+  For Python 2.6 users, will attempt to import from ordereddict
+  backport. If not present, will implement pure-Python Fifo dict.)
+
+- Minor API change - to better distinguish between the flexible
+  numeric types defined in pyparsing_common, I've changed "numeric" 
+  (which parsed numbers of different types and returned int for ints, 
+  float for floats, etc.) and "number" (which parsed numbers of int
+  or float type, and returned all floats) to "number" and "fnumber"
+  respectively. I hope the "f" prefix of "fnumber" will be a better
+  indicator of its internal conversion of parsed values to floats, 
+  while the generic "number" is similar to the flexible number syntax
+  in other languages. Also fixed a bug in pyparsing_common.numeric
+  (now renamed to pyparsing_common.number), integers were parsed and 
+  returned as floats instead of being retained as ints.
+
+- Fixed bug in upcaseTokens and downcaseTokens introduced in 2.1.5,
+  when the parse action was used in conjunction with results names.
+  Reported by Steven Arcangeli from the dql project, thanks for your
+  patience, Steven!
+
+- Major change to docs! After seeing some comments on reddit about 
+  general issue with docs of Python modules, and thinking that I'm a 
+  little overdue in doing some doc tuneup on pyparsing, I decided to
+  following the suggestions of the redditor and add more inline examples
+  to the pyparsing reference documentation. I hope this addition 
+  will clarify some of the more common questions people have, especially
+  when first starting with pyparsing/Python.
+
+- Deprecated ParseResults.asXML. I've never been too happy with this
+  method, and it usually forces some unnatural code in the parsers in
+  order to get decent tag names. The amount of guesswork that asXML 
+  has to do to try to match names with values should have been a red
+  flag from day one. If you are using asXML, you will need to implement 
+  your own ParseResults->XML serialization. Or consider migrating to
+  a more current format such as JSON (which is very easy to do: 
+  results_as_json = json.dumps(parse_result.asDict()) Hopefully, when
+  I remove this code in a future version, I'll also be able to simplify 
+  some of the craziness in ParseResults, which IIRC was only there to try 
+  to make asXML work.
+
+- Updated traceParseAction parse action decorator to show the repr
+  of the input and output tokens, instead of the str format, since 
+  str has been simplified to just show the token list content.  
+  
+  (The change to ParseResults.__str__ occurred in pyparsing 2.0.4, but
+  it seems that didn't make it into the release notes - sorry! Too
+  many users, especially beginners, were confused by the 
+  "([token_list], {names_dict})" str format for ParseResults, thinking 
+  they were getting a tuple containing a list and a dict. The full form 
+  can be seen if using repr().)
+
+  For tracing tokens in and out of parse actions, the more complete 
+  repr form provides important information when debugging parse actions.
+
+
 Verison 2.1.5 - June, 2016
 ------------------------------
 - Added ParserElement.split() generator method, similar to re.split(). 
