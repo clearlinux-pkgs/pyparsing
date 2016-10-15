@@ -2,8 +2,102 @@
 Change Log
 ==========
 
-Version 2.1.6 - 
-------------------------------
+Version 2.1.10 - October, 2016
+-------------------------------
+- Fixed bug in reporting named parse results for ZeroOrMore
+  expressions, thanks Ethan Nash for reporting this!
+
+- Fixed behavior of LineStart to be much more predictable.
+  LineStart can now be used to detect if the next parse position
+  is col 1, factoring in potential leading whitespace (which would
+  cause LineStart to fail). Also fixed a bug in col, which is
+  used in LineStart, where '\n's were erroneously considered to
+  be column 1.
+
+- Added support for multiline test strings in runTests.
+
+- Fixed bug in ParseResults.dump when keys were not strings.
+  Also changed display of string values to show them in quotes,
+  to help distinguish parsed numeric strings from parsed integers
+  that have been converted to Python ints.
+
+
+Version 2.1.9 - September, 2016
+-------------------------------
+- Added class CloseMatch, a variation on Literal which matches 
+  "close" matches, that is, strings with at most 'n' mismatching
+  characters.
+
+- Fixed bug in Keyword.setDefaultKeywordChars(), reported by Kobayashi
+  Shinji - nice catch, thanks!
+
+- Minor API change in pyparsing_common. Renamed some of the common
+  expressions to PEP8 format (to be consistent with the other 
+  pyparsing_common expressions):
+  . signedInteger -> signed_integer
+  . sciReal -> sci_real
+  
+  Also, in trying to stem the API bloat of pyparsing, I've copied
+  some of the global expressions and helper parse actions into 
+  pyparsing_common, with the originals to be deprecated and removed
+  in a future release:
+  . commaSeparatedList -> pyparsing_common.comma_separated_list
+  . upcaseTokens -> pyparsing_common.upcaseTokens
+  . downcaseTokens -> pyparsing_common.downcaseTokens
+
+  (I don't expect any other expressions, like the comment expressions,
+  quotedString, or the Word-helping strings like alphas, nums, etc.
+  to migrate to pyparsing_common - they are just too pervasive. As for
+  the PEP8 vs camelCase naming, all the expressions are PEP8, while
+  the parse actions in pyparsing_common are still camelCase. It's a 
+  small step - when pyparsing 3.0 comes around, everything will change
+  to PEP8 snake case.)
+
+- Fixed Python3 compatibility bug when using dict keys() and values()
+  in ParseResults.getName().
+
+- After some prodding, I've reworked the unitTests.py file for 
+  pyparsing over the past few releases. It uses some variations on 
+  unittest to handle my testing style. The test now:
+  . auto-discovers its test classes (while maintining their order
+    of definition)
+  . suppresses voluminous 'print' output for tests that pass
+
+
+Version 2.1.8 - August, 2016
+----------------------------
+- Fixed issue in the optimization to _trim_arity, when the full 
+  stacktrace is retrieved to determine if a TypeError is raised in
+  pyparsing or in the caller's parse action. Code was traversing
+  the full stacktrace, and potentially encountering UnicodeDecodeError.
+
+- Fixed bug in ParserElement.inlineLiteralsUsing, causing infinite 
+  loop with Suppress.
+
+- Fixed bug in Each, when merging named results from multiple
+  expressions in a ZeroOrMore or OneOrMore. Also fixed bug when
+  ZeroOrMore expressions were erroneously treated as required 
+  expressions in an Each expression.
+  
+- Added a few more inline doc examples.
+
+- Improved use of runTests in several example scripts.
+
+
+Version 2.1.7 - August, 2016
+----------------------------
+- Fixed regression reported by Andrea Censi (surfaced in PyContracts 
+  tests) when using ParseSyntaxExceptions (raised when using operator '-')
+  with packrat parsing.
+
+- Minor fix to oneOf, to accept all iterables, not just space-delimited
+  strings and lists. (If you have a list or set of strings, it is 
+  not necessary to concat them using ' '.join to pass them to oneOf,
+  oneOf will accept the list or set or generator directly.)
+
+
+Version 2.1.6 - August, 2016
+----------------------------
 - *Major packrat upgrade*, inspired by patch provided by Tal Einat - 
   many, many, thanks to Tal for working on this! Tal's tests show 
   faster parsing performance (2X in some tests), *and* memory reduction 
