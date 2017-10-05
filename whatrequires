@@ -1,14 +1,17 @@
 # This file contains recursive sources that require this package
 adwaita-icon-theme
+ceph
 cheese
 cryptography
 ecdsa
 faba-icon-theme
 gdk-pixbuf
+gensim
 gimp
 gst-plugins-good
 gtk+
 hexchat
+jupyter-notebook-gist
 keyring
 matplotlib
 moka-icon-theme
@@ -19,7 +22,9 @@ pyOpenSSL
 pydot
 pydot_ng
 qemu
+requests
 secretstorage
+smart_open
 spice
 spice-protocol
 totem
