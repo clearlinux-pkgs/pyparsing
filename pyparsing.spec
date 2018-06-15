@@ -4,7 +4,7 @@
 #
 Name     : pyparsing
 Version  : 2.2.0
-Release  : 42
+Release  : 43
 URL      : http://pypi.debian.net/pyparsing/pyparsing-2.2.0.tar.gz
 Source0  : http://pypi.debian.net/pyparsing/pyparsing-2.2.0.tar.gz
 Summary  : Python parsing module
