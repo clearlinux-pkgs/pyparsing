@@ -4,22 +4,25 @@
 #
 Name     : pyparsing
 Version  : 2.2.0
-Release  : 45
+Release  : 46
 URL      : http://pypi.debian.net/pyparsing/pyparsing-2.2.0.tar.gz
 Source0  : http://pypi.debian.net/pyparsing/pyparsing-2.2.0.tar.gz
 Summary  : Python parsing module
 Group    : Development/Tools
 License  : MIT
 Requires: pyparsing-python3
+Requires: pyparsing-license
 Requires: pyparsing-python
 BuildRequires : nose
 BuildRequires : pbr
 BuildRequires : pip
 BuildRequires : py
 BuildRequires : pytest
-
+BuildRequires : python-core
+BuildRequires : python3-core
 BuildRequires : python3-dev
 BuildRequires : setuptools
+BuildRequires : setuptools-legacypython
 
 %description
 ====================================
@@ -33,6 +36,14 @@ Requires: python-core
 
 %description legacypython
 legacypython components for the pyparsing package.
+
+
+%package license
+Summary: license components for the pyparsing package.
+Group: Default
+
+%description license
+license components for the pyparsing package.
 
 
 %package python
@@ -61,7 +72,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1519350557
+export SOURCE_DATE_EPOCH=1530376479
 python2 setup.py build -b py2
 python3 setup.py build -b py3
 
@@ -71,8 +82,10 @@ export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 py.test-2.7 || :
 %install
-export SOURCE_DATE_EPOCH=1519350557
+export SOURCE_DATE_EPOCH=1530376479
 rm -rf %{buildroot}
+mkdir -p %{buildroot}/usr/share/doc/pyparsing
+cp LICENSE %{buildroot}/usr/share/doc/pyparsing/LICENSE
 python2 -tt setup.py build -b py2 install --root=%{buildroot} --force
 python3 -tt setup.py build -b py3 install --root=%{buildroot} --force
 echo ----[ mark ]----
@@ -85,6 +98,10 @@ echo ----[ mark ]----
 %files legacypython
 %defattr(-,root,root,-)
 /usr/lib/python2*/*
+
+%files license
+%defattr(-,root,root,-)
+/usr/share/doc/pyparsing/LICENSE
 
 %files python
 %defattr(-,root,root,-)
