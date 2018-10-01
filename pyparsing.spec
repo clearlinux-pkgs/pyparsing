@@ -4,7 +4,7 @@
 #
 Name     : pyparsing
 Version  : 2.2.2
-Release  : 52
+Release  : 53
 URL      : https://files.pythonhosted.org/packages/1a/e2/4a7ad8f2808e03caebd3ec0a250b4afbb26d4ba063c39c3286185dd06dd1/pyparsing-2.2.2.tar.gz
 Source0  : https://files.pythonhosted.org/packages/1a/e2/4a7ad8f2808e03caebd3ec0a250b4afbb26d4ba063c39c3286185dd06dd1/pyparsing-2.2.2.tar.gz
 Summary  : Python parsing module
@@ -67,7 +67,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1538401880
+export SOURCE_DATE_EPOCH=1538407519
 python2 setup.py build -b py2
 python3 setup.py build -b py3
 
@@ -77,7 +77,7 @@ export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 py.test-2.7 || :
 %install
-export SOURCE_DATE_EPOCH=1538401880
+export SOURCE_DATE_EPOCH=1538407519
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/doc/pyparsing
 cp LICENSE %{buildroot}/usr/share/doc/pyparsing/LICENSE
