@@ -2,6 +2,171 @@
 Change Log
 ==========
 
+Version 2.3.0 - October, 2018
+-----------------------------
+- NEW SUPPORT FOR UNICODE CHARACTER RANGES
+  This release introduces the pyparsing_unicode namespace class, defining
+  a series of language character sets to simplify the definition of alphas,
+  nums, alphanums, and printables in the following language sets:
+   . Arabic
+   . Chinese
+   . Cyrillic
+   . Devanagari
+   . Greek
+   . Hebrew
+   . Japanese (including Kanji, Katakana, and Hirigana subsets)
+   . Korean
+   . Latin1 (includes 7 and 8-bit Latin characters)
+   . Thai
+   . CJK (combination of Chinese, Japanese, and Korean sets)
+
+  For example, your code can define words using:
+
+    korean_word = Word(pyparsing_unicode.Korean.alphas)
+
+  See their use in the updated examples greetingInGreek.py and
+  greetingInKorean.py.
+
+  This namespace class also offers access to these sets using their
+  unicode identifiers.
+
+- POSSIBLE API CHANGE: Fixed bug where a parse action that explicitly 
+  returned the input ParseResults could add another nesting level in
+  the results if the current expression had a results name.
+
+        vals = pp.OneOrMore(pp.pyparsing_common.integer)("int_values")
+        
+        def add_total(tokens):
+            tokens['total'] = sum(tokens)
+            return tokens  # this line can be removed
+
+        vals.addParseAction(add_total)
+        print(vals.parseString("244 23 13 2343").dump())
+
+  Before the fix, this code would print (note the extra nesting level):
+  
+    [244, 23, 13, 2343]
+    - int_values: [244, 23, 13, 2343]
+      - int_values: [244, 23, 13, 2343]
+      - total: 2623
+    - total: 2623
+
+  With the fix, this code now prints:
+  
+    [244, 23, 13, 2343]
+    - int_values: [244, 23, 13, 2343]
+    - total: 2623
+
+  This fix will change the structure of ParseResults returned if a 
+  program defines a parse action that returns the tokens that were 
+  sent in. This is not necessary, and statements like "return tokens" 
+  in the example above can be safely deleted prior to upgrading to 
+  this release, in order to avoid the bug and get the new behavior.
+
+  Reported by seron in Issue #22, nice catch!
+
+- POSSIBLE API CHANGE: Fixed a related bug where a results name 
+  erroneously created a second level of hierarchy in the returned 
+  ParseResults. The intent for accumulating results names into ParseResults
+  is that, in the absence of Group'ing, all names get merged into a
+  common namespace. This allows us to write:
+  
+       key_value_expr = (Word(alphas)("key") + '=' + Word(nums)("value"))
+       result = key_value_expr.parseString("a = 100") 
+    
+  and have result structured as {"key": "a", "value": "100"} 
+  instead of [{"key": "a"}, {"value": "100"}].
+  
+  However, if a named expression is used in a higher-level non-Group 
+  expression that *also* has a name, a false sub-level would be created 
+  in the namespace:
+
+        num = pp.Word(pp.nums)
+        num_pair = ("[" + (num("A") + num("B"))("values") + "]")
+        U = num_pair.parseString("[ 10 20 ]")
+        print(U.dump())
+
+  Since there is no grouping, "A", "B", and "values" should all appear
+  at the same level in the results, as:
+  
+        ['[', '10', '20', ']']
+        - A: '10'
+        - B: '20'
+        - values: ['10', '20']
+
+  Instead, an extra level of "A" and "B" show up under "values":
+  
+        ['[', '10', '20', ']']
+        - A: '10'
+        - B: '20'
+        - values: ['10', '20']
+          - A: '10'
+          - B: '20'
+
+  This bug has been fixed. Now, if this hierarchy is desired, then a
+  Group should be added:
+  
+        num_pair = ("[" + pp.Group(num("A") + num("B"))("values") + "]")
+
+  Giving:
+  
+        ['[', ['10', '20'], ']']
+        - values: ['10', '20']
+          - A: '10'
+          - B: '20'
+
+  But in no case should "A" and "B" appear in multiple levels. This bug-fix
+  fixes that.
+  
+  If you have current code which relies on this behavior, then add or remove
+  Groups as necessary to get your intended results structure.
+  
+  Reported by Athanasios Anastasiou.
+
+- IndexError's raised in parse actions will get explicitly reraised 
+  as ParseExceptions that wrap the original IndexError. Since 
+  IndexError sometimes occurs as part of pyparsing's normal parsing 
+  logic, IndexErrors that are raised during a parse action may have
+  gotten silently reinterpreted as parsing errors. To retain the 
+  information from the IndexError, these exceptions will now be 
+  raised as ParseExceptions that reference the original IndexError. 
+  This wrapping will only be visible when run under Python3, since it
+  emulates "raise ... from ..." syntax. 
+  
+  Addresses Issue #4, reported by guswns0528.
+
+- Added Char class to simplify defining expressions of a single
+  character. (Char("abc") is equivalent to Word("abc", exact=1))
+
+- Added class PrecededBy to perform lookbehind tests. PrecededBy is 
+  used in the same way as FollowedBy, passing in an expression that
+  must occur just prior to the current parse location.
+  
+  For fixed-length expressions like a Literal, Keyword, Char, or a 
+  Word with an `exact` or `maxLen` length given, `PrecededBy(expr)` 
+  is sufficient. For varying length expressions like a Word with no 
+  given maximum length, `PrecededBy` must be constructed with an 
+  integer `retreat` argument, as in 
+  `PrecededBy(Word(alphas, nums), retreat=10)`, to specify the maximum 
+  number of characters pyparsing must look backward to make a match. 
+  pyparsing will check all the values from 1 up to retreat characters 
+  back from the current parse location.
+
+  When stepping backwards through the input string, PrecededBy does 
+  *not* skip over whitespace.
+  
+  PrecededBy can be created with a results name so that, even though
+  it always returns an empty parse result, the result *can* include
+  named results.
+  
+  Idea first suggested in Issue #30 by Freakwill.
+
+- Updated FollowedBy to accept expressions that contain named results,
+  so that results names defined in the lookahead expression will be 
+  returned, even though FollowedBy always returns an empty list.
+  Inspired by the same feature implemented in PrecededBy.
+
+
 Version 2.2.2 - September, 2018
 -------------------------------
 - Fixed bug in SkipTo, if a SkipTo expression that was skipping to
