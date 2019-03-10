@@ -4,7 +4,7 @@
 #
 Name     : pyparsing
 Version  : 2.3.1
-Release  : 58
+Release  : 59
 URL      : https://files.pythonhosted.org/packages/b9/b8/6b32b3e84014148dcd60dd05795e35c2e7f4b72f918616c61fdce83d27fc/pyparsing-2.3.1.tar.gz
 Source0  : https://files.pythonhosted.org/packages/b9/b8/6b32b3e84014148dcd60dd05795e35c2e7f4b72f918616c61fdce83d27fc/pyparsing-2.3.1.tar.gz
 Summary  : Python parsing module
