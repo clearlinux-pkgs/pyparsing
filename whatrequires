@@ -2,6 +2,7 @@
 catkin_pkg
 certbot
 cryptography
+deprecated-cryptography
 matplotlib
 packaging
 pydot
