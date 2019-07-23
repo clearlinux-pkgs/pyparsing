@@ -1,9 +1,12 @@
 # This file contains recursive sources that require this package
 catkin_pkg
 certbot
+cinder
+cliff
 cryptography
 deprecated-cryptography
 matplotlib
+nltk
 packaging
 pydot
 pydot_ng
