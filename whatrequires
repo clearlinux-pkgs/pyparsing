@@ -4,12 +4,14 @@ certbot
 cinder
 cliff
 cryptography
-deprecated-cryptography
+docker-py
 matplotlib
 nltk
+oslo.utils
 packaging
 pydot
 pydot_ng
+python-zstandard
 spice
 spice-gtk
 spice-protocol
