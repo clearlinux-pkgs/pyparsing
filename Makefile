@@ -1,5 +1,5 @@
 PKG_NAME := pyparsing
-URL = https://files.pythonhosted.org/packages/00/32/8076fa13e832bb4dcff379f18f228e5a53412be0631808b9ca2610c0f566/pyparsing-2.4.5.tar.gz
+URL = https://files.pythonhosted.org/packages/a2/56/0404c03c83cfcca229071d3c921d7d79ed385060bbe969fde3fd8f774ebd/pyparsing-2.4.6.tar.gz
 ARCHIVES = 
 
 include ../common/Makefile.common

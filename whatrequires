@@ -6,6 +6,7 @@ cliff
 cryptography
 docker-py
 matplotlib
+natsort
 nltk
 oslo.utils
 packaging
