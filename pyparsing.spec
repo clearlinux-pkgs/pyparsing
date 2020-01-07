@@ -4,7 +4,7 @@
 #
 Name     : pyparsing
 Version  : 2.4.6
-Release  : 73
+Release  : 74
 URL      : https://files.pythonhosted.org/packages/a2/56/0404c03c83cfcca229071d3c921d7d79ed385060bbe969fde3fd8f774ebd/pyparsing-2.4.6.tar.gz
 Source0  : https://files.pythonhosted.org/packages/a2/56/0404c03c83cfcca229071d3c921d7d79ed385060bbe969fde3fd8f774ebd/pyparsing-2.4.6.tar.gz
 Summary  : Python parsing module
