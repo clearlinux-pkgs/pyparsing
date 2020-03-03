@@ -5,6 +5,7 @@ cinder
 cliff
 cryptography
 docker-py
+fastnumbers
 matplotlib
 natsort
 nltk
@@ -12,6 +13,7 @@ oslo.utils
 packaging
 pydot
 pydot_ng
+pydotplus
 python-zstandard
 spice
 spice-gtk
