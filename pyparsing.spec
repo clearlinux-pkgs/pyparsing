@@ -4,7 +4,7 @@
 #
 Name     : pyparsing
 Version  : 2.4.7
-Release  : 78
+Release  : 79
 URL      : https://files.pythonhosted.org/packages/c1/47/dfc9c342c9842bbe0036c7f763d2d6686bcf5eb1808ba3e170afdb282210/pyparsing-2.4.7.tar.gz
 Source0  : https://files.pythonhosted.org/packages/c1/47/dfc9c342c9842bbe0036c7f763d2d6686bcf5eb1808ba3e170afdb282210/pyparsing-2.4.7.tar.gz
 Summary  : Python parsing module
@@ -19,9 +19,22 @@ BuildRequires : py
 BuildRequires : pytest
 
 %description
-PyParsing -- A Python Parsing Module
 ====================================
-|Build Status|
+        
+        |Build Status|
+        
+        Introduction
+        ============
+        
+        The pyparsing module is an alternative approach to creating and
+        executing simple grammars, vs. the traditional lex/yacc approach, or the
+        use of regular expressions. The pyparsing module provides a library of
+        classes that client code uses to construct the grammar directly in
+        Python code.
+        
+        *[Since first writing this description of pyparsing in late 2003, this
+        technique for developing parsers has become more widespread, under the
+        name Parsing Expression Grammars - PEGs. See more information on PEGs at*
 
 %package license
 Summary: license components for the pyparsing package.
@@ -59,12 +72,11 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1586274543
-# -Werror is for werrorists
+export SOURCE_DATE_EPOCH=1603401036
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
-export FCFLAGS="$CFLAGS -fno-lto "
-export FFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$FFLAGS -fno-lto "
+export FFLAGS="$FFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
 export MAKEFLAGS=%{?_smp_mflags}
 python3 setup.py build

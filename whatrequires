@@ -1,15 +1,10 @@
 # This file contains recursive sources that require this package
-catkin_pkg
+Cura
 certbot
-cinder
-cliff
 cryptography
 docker-py
-fastnumbers
 matplotlib
-natsort
 nltk
-oslo.utils
 packaging
 pydot
 pydot_ng
