@@ -4,12 +4,15 @@
 #
 Name     : pyparsing
 Version  : 3.0.3
-Release  : 89
+Release  : 90
 URL      : https://files.pythonhosted.org/packages/a0/e4/2bae99e2bbdeb17c7cb9c2f7ef6022383ffcab8461d2ec339ff19ce4a969/pyparsing-3.0.3.tar.gz
 Source0  : https://files.pythonhosted.org/packages/a0/e4/2bae99e2bbdeb17c7cb9c2f7ef6022383ffcab8461d2ec339ff19ce4a969/pyparsing-3.0.3.tar.gz
 Summary  : Python parsing module
 Group    : Development/Tools
 License  : MIT
+Requires: pyparsing-license = %{version}-%{release}
+Requires: pyparsing-python = %{version}-%{release}
+Requires: pyparsing-python3 = %{version}-%{release}
 Requires: Jinja2
 BuildRequires : Jinja2
 BuildRequires : buildreq-distutils3
@@ -35,6 +38,33 @@ BuildRequires : pytest
         technique for developing parsers has become more widespread, under the
         name Parsing Expression Grammars - PEGs. See more information on PEGs*
 
+%package license
+Summary: license components for the pyparsing package.
+Group: Default
+
+%description license
+license components for the pyparsing package.
+
+
+%package python
+Summary: python components for the pyparsing package.
+Group: Default
+Requires: pyparsing-python3 = %{version}-%{release}
+
+%description python
+python components for the pyparsing package.
+
+
+%package python3
+Summary: python3 components for the pyparsing package.
+Group: Default
+Requires: python3-core
+Provides: pypi(pyparsing)
+
+%description python3
+python3 components for the pyparsing package.
+
+
 %prep
 %setup -q -n pyparsing-3.0.3
 cd %{_builddir}/pyparsing-3.0.3
@@ -44,7 +74,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1635432049
+export SOURCE_DATE_EPOCH=1635448136
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$FFLAGS -fno-lto "
@@ -53,11 +83,6 @@ export CXXFLAGS="$CXXFLAGS -fno-lto "
 export MAKEFLAGS=%{?_smp_mflags}
 python3 setup.py build
 
-%check
-export http_proxy=http://127.0.0.1:9/
-export https_proxy=http://127.0.0.1:9/
-export no_proxy=localhost,127.0.0.1,0.0.0.0
-python setup.py test
 %install
 export MAKEFLAGS=%{?_smp_mflags}
 rm -rf %{buildroot}
@@ -70,3 +95,14 @@ echo ----[ mark ]----
 
 %files
 %defattr(-,root,root,-)
+
+%files license
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/pyparsing/df156c6a0a89ed2a3bd4a473c68cf85907509ca0
+
+%files python
+%defattr(-,root,root,-)
+
+%files python3
+%defattr(-,root,root,-)
+/usr/lib/python3*/*

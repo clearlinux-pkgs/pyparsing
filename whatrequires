@@ -1,11 +1,15 @@
 # This file contains recursive sources that require this package
 Cura
+ansible
 certbot
 cryptography
 docker-py
+flatpak
+httplib2
 matplotlib
 nltk
 packaging
+pcs
 pydot
 pydot_ng
 pydotplus
