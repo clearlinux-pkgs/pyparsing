@@ -14,6 +14,7 @@ pydot
 pydot_ng
 pydotplus
 python-zstandard
+qt6base
 spice
 spice-gtk
 spice-protocol
